@@ -22,15 +22,17 @@ async function login(req, res) {
 
 function logout(req, res) {
   // Lógica para cerrar sesión
+  const { token } = req.body;
 
-  const token = req.headers.authorization; // Obtén el token de acceso del encabezado de la solicitud
+  // Verificar si el token ya está en la lista negra
+  if (blacklist.includes(token)) {
+    return res.status(400).json({ error: 'El token ya está en la lista negra' });
+  }
 
-  // Agrega el token de acceso a la lista negra
+  // Agregar el token a la lista negra
   blacklist.push(token);
 
-  // Envía una respuesta al cliente indicando que la sesión se ha cerrado exitosamente
-  res.json({ message: 'Cierre de sesión exitoso' });
+  res.json({ message: 'Token agregado a la lista negra correctamente' });
 }
-
 
 module.exports = { login, logout };
