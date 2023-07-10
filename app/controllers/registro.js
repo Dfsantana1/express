@@ -1,7 +1,9 @@
 const Registro = require("../models/registro");
+const bodyParser = require('body-parser');
 
 const registrarUsuario = async (req, res) => {
-  const { Name,Lastname,Email,Password,cellphone} = req.body;
+  console.log(req.body);
+  const {Name,Lastname,Email,Password,cellphone,direccion} = req.body;
 
   try {
     // Verificar si el email ya está registrado
@@ -17,7 +19,7 @@ const registrarUsuario = async (req, res) => {
     }
 
     // Crear el registro utilizando el modelo
-    await Registro.crearRegistro(Name,Lastname,Email,Password,cellphone);
+    await Registro.crearRegistro(Name,Lastname,Email,Password,cellphone,direccion);
 
     res.status(201).json({ message: "Registro exitoso" });
   } catch (error) {

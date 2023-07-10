@@ -1,10 +1,10 @@
 const connection = require("../../config/database");
 
 class Registro {
-  static crearRegistro(Name ,Lastname ,Email, Password,cellphone) {
+  static crearRegistro(Name ,Lastname ,Email, Password,cellphone,direccion) {
     return new Promise((resolve, reject) => {
-      const createUserQuery = "INSERT INTO Usuarios (Nombre,Apellido,Email,Contraseña ,Telefono,ID_ROL) VALUES (?, ?, ?,?,?,2)";
-      connection.query(createUserQuery, [Name,Lastname,Email,Password,cellphone], (err) => {
+      const createUserQuery = "INSERT INTO Usuarios (Nombre,Apellido,Email,Contraseña ,Telefono,ID_ROL,Direccion) VALUES (?, ?, ?,?,?,2,?)";
+      connection.query(createUserQuery, [Name,Lastname,Email,Password,cellphone,direccion], (err) => {
         if (err) {
           console.error("Error al crear el registro:", err);
           return reject(err);
@@ -16,6 +16,7 @@ class Registro {
   }
 
   static obtenerRegistroPorEmail(Email) {
+    console.log(Email);
     return new Promise((resolve, reject) => {
       const getUserByEmailQuery = "SELECT * FROM Usuarios WHERE Email = ?";
       connection.query(getUserByEmailQuery, [Email], (err, results) => {
@@ -34,6 +35,7 @@ class Registro {
   }
 
   static obtenerRegistroPorPassword(Contraseña) {
+    console.log(Contraseña);
     return new Promise((resolve, reject) => {
       const getUserByPasswordQuery = "SELECT * FROM Usuarios WHERE Contraseña = ?";
       connection.query(getUserByPasswordQuery, [Contraseña], (err, results) => {

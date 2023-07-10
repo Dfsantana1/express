@@ -1,15 +1,14 @@
 const Login = require('../models/login');
 const jwt = require('jsonwebtoken');
 const blacklist = require('./moduls/BlackList');
+const bodyParser = require('body-parser');
 
- 
 async function login(req, res) {
-  const { Email, Password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const registro = await Login.autenticarUsuario(Email, Password);
-//
-  
+    const registro = await Login.autenticarUsuario(email, password);
+
     const accessToken = jwt.sign({ userId: registro.id }, 'secretKey', { expiresIn: '1h' });
 
     // Enviar el token de acceso junto con la respuesta
@@ -21,7 +20,6 @@ async function login(req, res) {
 }
 
 function logout(req, res) {
-  // Lógica para cerrar sesión
   const { token } = req.body;
 
   // Verificar si el token ya está en la lista negra
