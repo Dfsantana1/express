@@ -31,7 +31,29 @@ const registrarUsuario = async (req, res) => {
   
 };
 
+const editarUsuario = async (req, res) => {
+  // Obtener la información del cliente desde el body de la solicitud
+  const { Name,Lastname,Email,Password,cellphone,Direccion } = req.body;
+
+  try {
+    // Verificar si el cliente existe
+    const clienteExistente = await Registro.obtenerRegistroPorEmail(Email);
+    if (!clienteExistente) {
+      return res.status(404).json({ error: "Cliente no encontrado" });
+    }
+      
+    // Actualizar el cliente utilizando el modelo
+    await Registro.editarRegistro(Name,Lastname,Email,Password,cellphone,Direccion);
+
+    // Responder al cliente con un mensaje de éxito
+    res.json({ message: "Cliente actualizado exitosamente" });
+  } catch (error) {
+    console.error("Error al actualizar el cliente:", error);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+};
+
 
 module.exports = {
-  registrarUsuario,
+  registrarUsuario,editarUsuario
 };

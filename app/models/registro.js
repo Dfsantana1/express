@@ -34,6 +34,21 @@ class Registro {
     });
   }
 
+
+  static editarRegistro(Name ,Lastname ,Email, Password,cellphone,Direccion) {
+    return new Promise((resolve, reject) => {
+      const updateUserQuery = "UPDATE Usuarios SET Nombre = ?,Apellido = ?,Contraseña = ?,Telefono = ?,Direccion = ? WHERE Email = ?";
+      connection.query(updateUserQuery, [Name,Lastname,Password,cellphone,Direccion,Email], (err) => {
+        if (err) {
+          console.error("Error al actualizar el registro:", err);
+          return reject(err);
+        }
+
+        resolve();
+      });
+    });
+  }
+  //api de prueba para postman
   static obtenerRegistroPorPassword(Contraseña) {
     console.log(Contraseña);
     return new Promise((resolve, reject) => {
