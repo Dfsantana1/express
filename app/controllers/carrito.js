@@ -15,7 +15,7 @@ async function agregarProductoAlCarrito(req, res) {
     if (producto.stock < cantidad) {
       return res.status(400).json({ error: 'Cantidad supera el stock disponible' });
     }
-
+ 
     // Agregar el producto al carrito del cliente
     await Carrito.agregarProducto(clienteId, productoId, cantidad);
 
