@@ -4,10 +4,10 @@ const blacklist = require('./moduls/BlackList');
 const bodyParser = require('body-parser');
 
 async function login(req, res) {
-  const { email, password } = req.body;
+  const { Email, Password } = req.body;
 
   try {
-    const registro = await Login.autenticarUsuario(email, password);
+    const registro = await Login.autenticarUsuario(Email, Password);
 
     const accessToken = jwt.sign({ userId: registro.id }, 'secretKey', { expiresIn: '1h' });
 

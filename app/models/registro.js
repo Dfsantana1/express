@@ -1,10 +1,10 @@
 const connection = require("../../config/database");
 
 class Registro {
-  static crearRegistro(Name ,Lastname ,Email, Password,cellphone,direccion) {
+  static crearRegistro(Name ,Lastname ,Email, Password,cellphone,Direccion) {
     return new Promise((resolve, reject) => {
       const createUserQuery = "INSERT INTO Usuarios (Nombre,Apellido,Email,Contraseña ,Telefono,ID_ROL,Direccion) VALUES (?, ?, ?,?,?,2,?)";
-      connection.query(createUserQuery, [Name,Lastname,Email,Password,cellphone,direccion], (err) => {
+      connection.query(createUserQuery, [Name,Lastname,Email,Password,cellphone,Direccion], (err) => {
         if (err) {
           console.error("Error al crear el registro:", err);
           return reject(err);
