@@ -37,6 +37,17 @@ class Product {
       throw error;
     }
   }
+  //function getproductbyid
+  static async obtenerProductoPorId(productoId) {
+    try {
+      const query = 'SELECT * FROM Productos WHERE ID_Producto = ?';
+      const [rows] = await db.query(query, [productoId]);
+      return rows[0];
+    } catch (error) {
+      throw error;
+    }
+  }
+  
 
   static async verificarStock(productoId) {
     try {
