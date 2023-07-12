@@ -13,13 +13,34 @@ const transporter = nodemailer.createTransport({
 class Product {
   static async crearProducto(nombre, descripcion, precio, imagen1, imagen2, imagen3, max, min, stock) {
     try {
-      const query = 'INSERT INTO Productos (Nombre_Producto, Descripción, Precio, `Imagen_1`, `Imagen_2`, `Imagen_3`, Max, Min, Stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      const query = 'INSERT INTO Productos (Nombre_Producto, Descripci0n, Precio, `Imagen_1`, `Imagen_2`, `Imagen_3`, Max, Min, Stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
       const [result] = await db.query(query, [nombre, descripcion, precio, imagen1, imagen2, imagen3, max, min, stock]);
       return result.insertId;
     } catch (error) {
       throw error;
     }
   }
+
+  static async editarProducto(productoId, nombre, descripcion, precio, imagen1, imagen2, imagen3, stock, max, min) {
+    try {
+      const query = 'UPDATE Productos SET Nombre_Producto = ?, Descripcion = ?, Precio = ?, Imagen_1 = ?, Imagen_2 = ?, Imagen_3 = ?, Stock = ?, Max = ?, Min = ? WHERE ID_Producto = ?';
+      await db.query(query, [nombre, descripcion, precio, imagen1, imagen2, imagen3, stock, max, min, productoId]);
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+ 
+
+  static async eliminarProducto(productoId) {
+    try {
+      const query = 'DELETE FROM Productos WHERE ID_Producto = ?';
+      await db.query(query, [productoId]);
+    } catch (error) {
+      throw error;
+    }
+  }
+  
 
   static async obtenerProductos(categoriaId) {
     try {
