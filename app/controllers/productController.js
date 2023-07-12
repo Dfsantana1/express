@@ -1,10 +1,10 @@
 const Product = require('../models/productos');
 
 async function obtenerProductos(req, res) {
-  const { categoriaId } = req.query; // Obtener el parámetro de consulta categoriaId
+  const categoriaId = req.query.categoriaId; // Obtener el parámetro de consulta categoriaId
 
   try {
-    const productos = await Product.obtenerProductos(categoriaId); // Pasar el categoriaId al método obtenerProductos
+    const productos = await Product.obtenerProductos(categoriaId || null); // Pasar el categoriaId al método obtenerProductos
     res.json({ productos });
   } catch (error) {
     console.error(error);
@@ -13,3 +13,4 @@ async function obtenerProductos(req, res) {
 }
 
 module.exports = { obtenerProductos };
+

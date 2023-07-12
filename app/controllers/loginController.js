@@ -1,7 +1,6 @@
 const Login = require('../models/login');
 const jwt = require('jsonwebtoken');
 const blacklist = require('./moduls/BlackList');
-const bodyParser = require('body-parser');
 
 async function login(req, res) {
   const { Email, Password } = req.body;
