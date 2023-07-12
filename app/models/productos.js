@@ -5,8 +5,8 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'dsantanafernandez@gmail.com',
-    pass: '*********'
+    user: 'd.santana@utp.edu.co',
+    pass: 'password'
   }
 });
 
@@ -40,11 +40,12 @@ class Product {
 
   static async verificarStock(productoId) {
     try {
-      const query = 'SELECT Stock FROM Productos WHERE ID_Producto = ?';
+      const query = 'SELECT Stock ,Min FROM Productos WHERE ID_Producto = ?';
       const [result] = await db.query(query, [productoId]);
       const stock = result[0].Stock;
-      
-      if (stock <= 0) {
+      const Min = result[0].Min;
+
+      if (stock < Min) {
         console.log(`¡Alerta de stock! Producto con ID ${productoId} sin stock.`);
 
         // Configurar el contenido del correo
@@ -68,6 +69,7 @@ class Product {
       throw error;
     }
   }
+
 }
 
 module.exports = Product;
