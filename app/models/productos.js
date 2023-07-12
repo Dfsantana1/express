@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 class Product {
   static async crearProducto(nombre, descripcion, precio, imagen1, imagen2, imagen3, max, min, stock) {
     try {
-      const query = 'INSERT INTO Productos (Nombre_Producto, Descripción, Precio, `Imagen 1`, `Imagen 2`, `Imagen 3`, Max, Min, Stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      const query = 'INSERT INTO Productos (Nombre_Producto, Descripción, Precio, `Imagen_1`, `Imagen_2`, `Imagen_3`, Max, Min, Stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
       const [result] = await db.query(query, [nombre, descripcion, precio, imagen1, imagen2, imagen3, max, min, stock]);
       return result.insertId;
     } catch (error) {
