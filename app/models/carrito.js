@@ -82,7 +82,6 @@ class Pedido {
     try {
       const query = 'SELECT Detalle_Pedidos.*, Productos.Precio FROM Detalle_Pedidos INNER JOIN Productos ON Detalle_Pedidos.ID_Producto = Productos.ID_Producto WHERE Detalle_Pedidos.ID_Pedido = ?';
       const [rows] = await db.query(query, [clienteId]);
-      console.log(rows);
   
       // Aquí se realiza el cálculo del subtotal para cada detalle de pedido
       const detallesPedidosConSubtotal = rows.map(detallePedido => {
@@ -91,7 +90,6 @@ class Pedido {
           ...detallePedido,
           Subtotal: subtotal
         };
-
       });
   
       return detallesPedidosConSubtotal;

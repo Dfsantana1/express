@@ -59,8 +59,6 @@ async function obtenerSubtotalCarrito(req, res) {
 
 async function obtenerCarritoPorCliente(req, res) {
   try {
-
-    
     // Obtener el ID del cliente desde los parámetros de la solicitud
     const { clienteId } = req.params;
 
@@ -73,26 +71,37 @@ async function obtenerCarritoPorCliente(req, res) {
     }
 
     let subtotal = 0;
+    const productosConTotal = [];
 
     // Calcular el subtotal sumando los precios de los productos seleccionados
     for (const producto of productosCarrito) {
       // Obtener el detalle del producto
-      const productoDetalle = await Product.obtenerProductoPorId(producto.productoId);
+      const productoDetalle = await Product.obtenerProductoPorId(producto.ID_Producto);
 
       // Verificar si se pudo obtener el detalle del producto
-      if (!productoDetalle || !productoDetalle.precio) {
+      if (!productoDetalle || !productoDetalle.Precio) {
         return res.status(500).json({ error: 'No se pudo obtener el detalle del producto' });
       }
 
-      subtotal += productoDetalle.precio * producto.cantidad;
+      const subtotalProducto = productoDetalle.Precio * producto.Cantidad;
+      subtotal += subtotalProducto;
+
+      // Agregar el producto al arreglo de productos con el subtotal
+      productosConTotal.push({
+        producto,
+        subtotal: subtotalProducto,
+      });
     }
 
-    res.json({ subtotal });
+    console.log(productosConTotal);
+    res.json({ productos: productosConTotal, total: subtotal });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error en el servidor' });
   }
 }
+
+
 
 async function eliminarProductoDelCarrito(req, res) {
   // Obtener el ID del cliente desde los parámetros de la solicitu
