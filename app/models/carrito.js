@@ -57,7 +57,7 @@ class Pedido {
   
   static async asignarPedido(clienteId) {
     try {
-      console.log('Asignando pedido');
+      console.log('Asigning order');
       const fechaPedido = new Date().toISOString().slice(0, 10); // Obtiene la fecha actual en formato YYYY-MM-DD
       const insertPedidoQuery = 'INSERT INTO Pedidos (ID_Usuario, Fecha_Pedido) VALUES (?, ?)';
       await db.query(insertPedidoQuery, [clienteId, fechaPedido]);

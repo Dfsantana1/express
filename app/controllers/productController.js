@@ -19,7 +19,7 @@ console.log(req.query.productId);
     res.json({ productos });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error en el servidor' });
+    res.status(500).json({ error: 'Server Error' });
   }
 
 }
@@ -53,16 +53,16 @@ async function eliminarProducto(req, res) {
     // Verificar que el producto exista
     const producto = await Product.obtenerProductoPorId(productId);
     if (!producto) {
-      return res.status(404).json({ error: 'Producto no encontrado' });
+      return res.status(404).json({ error: 'Product not found' });
     }
 
     // Eliminar el producto
     await Product.eliminarProducto(productId);
 
-    res.json({ message: 'Producto eliminado exitosamente' });
+    res.json({ message: 'Product removed' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error en el servidor' });
+    res.status(500).json({ error: 'Server Error' });
   }
 }
 

@@ -78,22 +78,22 @@ class Product {
       const Min = result[0].Min;
 
       if (stock < Min) {
-        console.log(`¡Alerta de stock! Producto con ID ${productoId} sin stock.`);
+        console.log(`¡Stock alert! Product's ID ${productoId} out of stock.`);
 
         // Configurar el contenido del correo
         const mailOptions = {
           from: 'dsantanafernandez@gmail.com',
           to: 'd.santana@utp.edu.co',
-          subject: 'Alerta de stock',
-          text: `¡Alerta de stock! El producto con ID ${productoId} está sin stock.`
+          subject: 'Stock alert',
+          text: `¡Stock alert! Product's ID ${productoId} out of stock.`
         };
 
         // Enviar el correo electrónico
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
-            console.error('Error al enviar el correo:', error);
+            console.error('Can\'t send email. Error:', error);
           } else {
-            console.log('Correo enviado:', info.response);
+            console.log('Invalid email:', info.response);
           }
         });
       }
