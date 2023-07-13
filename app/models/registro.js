@@ -35,6 +35,29 @@ class Registro {
   }
 
 
+  //obtener usuario por id
+  static obtenerRegistroPorIdq(Id) {
+    console.log(Id);
+    return new Promise((resolve, reject) => {
+      const getUserByIdQuery = "SELECT * FROM Usuarios WHERE ID_USUARIO = ?";
+      connection.query(getUserByIdQuery, [Id], (err, results) => {
+        if (err) {
+          console.error("Error al obtener el registro por id:", err);
+          return reject(err);
+        }
+
+        if (results.length > 0) {
+          resolve(results[0]);
+        } else {
+          resolve(null);
+          
+        }
+      });
+    });
+  }
+  
+    
+
   static editarRegistro(Name ,Lastname ,Email, Password,cellphone,Direccion) {
     return new Promise((resolve, reject) => {
       const updateUserQuery = "UPDATE Usuarios SET Nombre = ?,Apellido = ?,Contraseña = ?,Telefono = ?,Direccion = ? WHERE Email = ?";

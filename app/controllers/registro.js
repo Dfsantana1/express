@@ -31,6 +31,31 @@ const registrarUsuario = async (req, res) => {
   
 };
 
+//obtener usuario adminstrador
+const obtenerUsuario = async (req, res) => {
+  try {
+
+    // Obtener el ID del cliente desde el requiere body
+    const { clienteId } = req.body;
+  
+
+    console.log(clienteId);
+    // Obtener el cliente utilizando el modelo
+    const cliente = await Registro.obtenerRegistroPorId(clienteId);
+
+    // Verificar si el cliente existe
+    if (!cliente) {
+      return res.status(404).json({ error: "Cliente no encontrado" });
+    }
+
+    // Responder al cliente con el cliente obtenido
+    res.json(cliente);
+  } catch (error) {
+    console.error("Error al obtener el cliente:", error);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+};
+
 const editarUsuario = async (req, res) => {
   // Obtener la información del cliente desde el body de la solicitud
   const { Name,Lastname,Email,Password,cellphone,Direccion } = req.body;
@@ -55,5 +80,5 @@ const editarUsuario = async (req, res) => {
 
 
 module.exports = {
-  registrarUsuario,editarUsuario
+  registrarUsuario,editarUsuario,obtenerUsuario
 };
