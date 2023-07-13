@@ -5,12 +5,12 @@ class Login {
     try {
       const registro = await Registro.obtenerRegistroPorEmail(Email);
       if (!registro) {
-        throw new Error('Usuario no encontrado');
+        throw new Error('User not found');
       }
 
       const contraseñaCorrecta = await Registro.obtenerRegistroPorPassword(Password);
       if (!contraseñaCorrecta) {
-        throw new Error('Contraseña incorrecta');
+        throw new Error('Wrong password');
       }
 
       return registro;

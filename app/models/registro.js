@@ -1,10 +1,10 @@
 const connection = require("../../config/database");
 
 class Registro {
-  static crearRegistro(Name ,Lastname ,Email, Password,celphone, Direccion) {
+  static crearRegistro(Name ,Lastname ,Email, Password,Celphone, Direccion) {
     return new Promise((resolve, reject) => {
       const createUserQuery = "INSERT INTO Usuarios (Nombre,Apellido,Email,Contraseña ,Telefono,ID_ROL,Direccion) VALUES (?, ?, ?,?,?,2,?)";
-      connection.query(createUserQuery, [Name,Lastname,Email,Password,celphone,Direccion], (err) => {
+      connection.query(createUserQuery, [Name,Lastname,Email,Password,Celphone,Direccion], (err) => {
         if (err) {
           console.error("Query Error :", err);
           return reject(err);
@@ -42,7 +42,7 @@ class Registro {
       const getUserByIdQuery = "SELECT * FROM Usuarios WHERE ID_USUARIO = ?";
       connection.query(getUserByIdQuery, [Id], (err, results) => {
         if (err) {
-          console.error("Error al obtener el registro por id:", err);
+          console.error("Error retrieving the record by ID: ", err);
           return reject(err);
         }
 
