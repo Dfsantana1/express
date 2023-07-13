@@ -1,10 +1,10 @@
 const connection = require("../../config/database");
 
 class Registro {
-  static crearRegistro(Name ,Lastname ,Email, Password,cellphone,Direccion) {
+  static crearRegistro(Name ,Lastname ,Email, Password,Telefono,Direccion) {
     return new Promise((resolve, reject) => {
       const createUserQuery = "INSERT INTO Usuarios (Nombre,Apellido,Email,Contraseña ,Telefono,ID_ROL,Direccion) VALUES (?, ?, ?,?,?,2,?)";
-      connection.query(createUserQuery, [Name,Lastname,Email,Password,cellphone,Direccion], (err) => {
+      connection.query(createUserQuery, [Name,Lastname,Email,Password,Telefono,Direccion], (err) => {
         if (err) {
           console.error("Error al crear el registro:", err);
           return reject(err);
@@ -58,10 +58,10 @@ class Registro {
   
     
 
-  static editarRegistro(Name ,Lastname ,Email, Password,cellphone,Direccion) {
+  static editarRegistro(Name ,Lastname ,Email, Password,Telefono,Direccion) {
     return new Promise((resolve, reject) => {
       const updateUserQuery = "UPDATE Usuarios SET Nombre = ?,Apellido = ?,Contraseña = ?,Telefono = ?,Direccion = ? WHERE Email = ?";
-      connection.query(updateUserQuery, [Name,Lastname,Password,cellphone,Direccion,Email], (err) => {
+      connection.query(updateUserQuery, [Name,Lastname,Password,Telefono,Direccion,Email], (err) => {
         if (err) {
           console.error("Error al actualizar el registro:", err);
           return reject(err);

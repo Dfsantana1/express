@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 
 const registrarUsuario = async (req, res) => {
   console.log(req.body);
-  const {Name,Lastname,Email,Password,cellphone,Direccion} = req.body;
+  const {Name,Lastname,Email,Password,Telefono,Direccion} = req.body;
 
   try {
     // Verificar si el email ya está registrado
@@ -19,7 +19,7 @@ const registrarUsuario = async (req, res) => {
     }
 
     // Crear el registro utilizando el modelo
-    await Registro.crearRegistro(Name,Lastname,Email,Password,cellphone,Direccion);
+    await Registro.crearRegistro(Name,Lastname,Email,Password,Telefono,Direccion);
 
     // Responder al cliente con un mensaje de éxito
     res.status(201).json({ message: "Registro exitoso" });
@@ -58,7 +58,9 @@ const obtenerUsuario = async (req, res) => {
 
 const editarUsuario = async (req, res) => {
   // Obtener la información del cliente desde el body de la solicitud
-  const { Name,Lastname,Email,Password,cellphone,Direccion } = req.body;
+  const { Name,Lastname,Email,Password,Telefono,Direccion } = req.body;
+
+  
 
   try {
     // Verificar si el cliente existe
@@ -68,7 +70,7 @@ const editarUsuario = async (req, res) => {
     }
       
     // Actualizar el cliente utilizando el modelo
-    await Registro.editarRegistro(Name,Lastname,Email,Password,cellphone,Direccion);
+    await Registro.editarRegistro(Name,Lastname,Email,Password,Telefono,Direccion);
 
     // Responder al cliente con un mensaje de éxito
     res.json({ message: "Cliente actualizado exitosamente" });
