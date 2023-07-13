@@ -32,16 +32,16 @@ async function editarProducto(req, res) {
     // Verificar que el producto exista
     const producto = await Product.obtenerProductoPorId(productId);
     if (!producto) {
-      return res.status(404).json({ error: 'Producto no encontrado' });
+      return res.status(404).json({ error: 'Product not found' });
     }
 
     // Actualizar el producto
     await Product.editarProducto(productId, nombre, descripcion, precio, imagen1, imagen2, imagen3, stock, max, min);
 
-    res.json({ message: 'Producto actualizado exitosamente' });
+    res.json({ message: 'Product updated' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error en el servidor' });
+    res.status(500).json({ error: 'Server Error' });
   }
 }
 

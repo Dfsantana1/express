@@ -11,20 +11,20 @@ const transporter = nodemailer.createTransport({
 });
 
 class Product {
-  static async crearProducto(nombre, descripcion, precio, imagen1, imagen2, imagen3, max, min, stock) {
+  static async crearProducto(name, description, price, image1, image2, image3, max, min, stock) {
     try {
       const query = 'INSERT INTO Productos (Nombre_Producto, Descripci0n, Precio, `Imagen_1`, `Imagen_2`, `Imagen_3`, Max, Min, Stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-      const [result] = await db.query(query, [nombre, descripcion, precio, imagen1, imagen2, imagen3, max, min, stock]);
+      const [result] = await db.query(query, [name, description, price, image1, image2, image3, max, min, stock]);
       return result.insertId;
     } catch (error) {
       throw error;
     }
   }
 
-  static async editarProducto(productoId, nombre, descripcion, precio, imagen1, imagen2, imagen3, stock, max, min) {
+  static async editarProducto(productoId, name, description, price, image1, image2, image3, stock, max, min) {
     try {
       const query = 'UPDATE Productos SET Nombre_Producto = ?, Descripcion = ?, Precio = ?, Imagen_1 = ?, Imagen_2 = ?, Imagen_3 = ?, Stock = ?, Max = ?, Min = ? WHERE ID_Producto = ?';
-      await db.query(query, [nombre, descripcion, precio, imagen1, imagen2, imagen3, stock, max, min, productoId]);
+      await db.query(query, [name, description, price, image1, image2, image3, stock, max, min, productoId]);
     } catch (error) {
       throw error;
     }
