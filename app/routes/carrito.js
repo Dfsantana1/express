@@ -10,7 +10,7 @@ router.get('/carrito/:clienteId', carritoController.obtenerCarritoPorCliente);
 router.delete('/carrito/:clienteId/:productoId', carritoController.eliminarProductoDelCarrito);
 
 router.delete('/carrito/vaciar/:clienteId', carritoController.vaciarCarrito);
-
+router.post('/checkout', carritoController.checkout);
 
 
 module.exports = router;

@@ -102,6 +102,93 @@ class Product {
     }
   }
 
+  //enviar email por compra a cliente y a administrador
+  static async enviarEmailCompra(productoId,userEmail) {
+    try {
+      const query = 'SELECT * FROM Productos WHERE ID_Producto = ?';
+      const [rows] = await db.query(query, [productoId]);
+      const producto = rows[0];
+
+      // Configurar el contenido del correo
+      const mailOptions = {
+        from: 'dsantanafernandez@gmail.com',
+        to: userEmail,
+        subject: 'Compra realizada',
+        text: `¡Gracias por su compra! \n\n
+        Detalles de la compra: \n
+        '//productos comprados' \n
+        Nombre: ${producto.Nombre_Producto} \n
+        Descripción: ${producto.Descripcion} \n
+        Precio: ${producto.Precio} \n
+        Imagen: ${producto.Imagen_1} \n
+        Imagen: ${producto.Imagen_2} \n
+        Imagen: ${producto.Imagen_3} \n
+        Stock: ${producto.Stock} \n
+        Max: ${producto.Max} \n
+        Min: ${producto.Min} \n
+        `
+
+      };
+
+      // Enviar el correo electrónico
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Can\'t send email. Error:', error);
+        } else {
+          console.log('Invalid email:', info.response);
+        }
+      }
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+  //enviar email por compra a cliente y a administrador
+  static async enviarEmailCompraAdmin(productoId,admin) {
+    try {
+      const query = 'SELECT * FROM Productos WHERE ID_Producto = ?';
+      const [rows] = await db.query(query, [productoId]);
+      const producto = rows[0];
+
+      // Configurar el contenido del correo
+      const mailOptions = {
+        from: 'd.santana@utp.edu.co',
+        to: admin ,
+        subject: 'Compra realizada',
+        text: `¡Gracias por su compra! \n\n
+        Detalles de la compra: \n
+        '//productos comprados' \n
+        Nombre: ${producto.Nombre_Producto} \n
+        Descripción: ${producto.Descripcion} \n
+        Precio: ${producto.Precio} \n
+        Imagen: ${producto.Imagen_1} \n
+        Imagen: ${producto.Imagen_2} \n
+        Imagen: ${producto.Imagen_3} \n
+        Stock: ${producto.Stock} \n
+        Max: ${producto.Max} \n
+        Min: ${producto.Min} \n
+        `
+      };
+
+      // Enviar el correo electrónico
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Can\'t send email. Error:', error);
+        } else {
+          console.log('Invalid email:', info.response);
+        }
+      }
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+
+
+
+        
 }
 
 module.exports = Product;

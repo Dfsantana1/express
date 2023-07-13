@@ -1,6 +1,10 @@
 const Carrito = require('../models/carrito');
 const Product = require('../models/productos');
 
+const Stripe = require("stripe");
+const stripe = new Stripe("sk_test_51NJ0FPGQf2KJU8YXKuVLHpQavgn9simTrnriCjS2beCGo4aWyENRQ5RR7gETypJpVaOdAbvmun5hSjtCWo9T5sS500v6uI8TVA");
+
+
 async function agregarProductoAlCarrito(req, res) {
   // Obtener los datos del cliente y producto desde el body de la solicitud
   const { clienteId, productoId, cantidad } = req.body;
@@ -55,7 +59,77 @@ async function obtenerSubtotalCarrito(req, res) {
   }
 }
 
+//compra realizada con exito  cuando se realice la compra , e
+//l carrito se vacia y se envia un email al usuario con los detalles de la compra y uno al admin
+async function compraRealizada(req, res) {
+  try {
+    // Obtener el ID del cliente desde los parámetros de la solicitud
+    const { clienteId } = req.params;
 
+    // Obtener los productos en el carrito del cliente
+    const productosCarrito = await Carrito.obtenerProductosPorCliente(clienteId);
+
+    // Verificar si el carrito está vacío
+    if (productosCarrito.length === 0) {
+      return res.status(404).json({ error: 'Shopping cart is empty' });
+    }
+
+    let subtotal = 0;
+    const productosConTotal = [];
+
+    // Calcular el subtotal sumando los precios de los productos seleccionados
+    for (const producto of productosCarrito) {
+      subtotal += parseFloat(producto.Subtotal);
+      productosConTotal.push({
+        id: producto.id,
+        nombre: producto.nombre,
+        precio: producto.precio,
+        cantidad: producto.cantidad,
+        subtotal: producto.Subtotal,
+      });
+    }
+
+    // Crear el objeto de compra
+    const compra = {
+      clienteId,
+      subtotal,
+      productos: productosConTotal,
+    }
+    //enviarla a los correos 
+    // Enviar el objeto de compra por email
+    await Product.enviarEmailCompra(compra);
+
+    // Vaciar el carrito del cliente
+    await Carrito.vaciarCarrito(clienteId);
+
+    res.json({ message: 'Purchase completed successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server Error' });
+  }
+}
+
+
+
+
+
+
+
+
+async function checkout (req, res)  {
+  const data = req.body;
+
+  const line_items = data.line_items;
+  console.log(line_items);
+  
+  const session = await stripe.checkout.sessions.create({
+    line_items,
+    mode: 'payment',
+    success_url: 'http://localhost:3000/success',
+    cancel_url: 'http://localhost:3000/cancel',
+  })
+  res.json({result:session})
+}
 
 async function obtenerCarritoPorCliente(req, res) {
   try {
@@ -169,4 +243,5 @@ async function finalizarCompra(req, res) {
 
 
 
-module.exports = { agregarProductoAlCarrito, obtenerSubtotalCarrito, finalizarCompra, obtenerCarritoPorCliente, eliminarProductoDelCarrito,vaciarCarrito };
+module.exports = { agregarProductoAlCarrito,checkout, obtenerSubtotalCarrito, finalizarCompra, obtenerCarritoPorCliente, eliminarProductoDelCarrito,vaciarCarrito };
+
