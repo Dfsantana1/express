@@ -194,6 +194,28 @@ Elimina todos los detalles de pedido asociados al cliente de la tabla "Detalle_P
       throw error;
     }
   }
+
+  //elimanr producto del carrito 
+  static async eliminarProductoDelCarrito(clienteId, productoId) {
+    try {
+      const query = `
+        DELETE FROM Detalle_Pedidos
+        WHERE ID_Pedido = (
+          SELECT ID_Pedido
+          FROM Pedidos
+          WHERE ID_Usuario = ?
+        )
+        AND ID_Producto = ?
+      `;
+      await db.query(query, [clienteId, productoId]);
+      console.log('Registros eliminados correctamente.');
+    } catch (error) {
+      console.error('Error al eliminar el producto del carrito:', error);
+      throw error;
+    }
+  }
+  
+  
 }
 
 
