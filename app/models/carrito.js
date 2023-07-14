@@ -2,6 +2,21 @@ const db = require('../../config/database').promise() ;
 
 class Pedido {
 
+  /*Función: agregarProducto
+Objetivo: Agregar un producto al carrito de un cliente.
+
+Parámetros:
+
+clienteId: ID del cliente.
+productoId: ID del producto a agregar.
+cantidad: Cantidad del producto a agregar.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza para agregar un producto al carrito de un cliente. Verifica si ya hay un pedido existente para el cliente. 
+Si no hay un pedido existente, se crea uno nuevo. Luego, verifica si el producto ya está en el carrito del cliente. 
+Si está presente, actualiza la cantidad y el subtotal del producto. Si no está presente, agrega un nuevo detalle de pedido con la cantidad 
+y el subtotal del producto.
+ */
   static async agregarProducto(clienteId, productoId, cantidad) {
     try {
       const pedidoQuery = 'SELECT ID_Pedido FROM Pedidos WHERE ID_Usuario = ?';
@@ -54,8 +69,17 @@ class Pedido {
     }
   }
   
-  
-  static async asignarPedido(clienteId) {
+  /*Función: asignarPedido
+Objetivo: Asignar un pedido a un cliente.
+
+Parámetros:
+
+clienteId: ID del cliente.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza para asignar un nuevo pedido a un cliente. Registra la fecha del pedido y crea una entrada en 
+la tabla "Pedidos" con el ID del cliente y la fecha del pedido. */
+  static async asignarPedido(clienteId) { 
     try {
       console.log('Asigning order');
       const fechaPedido = new Date().toISOString().slice(0, 10); // Obtiene la fecha actual en formato YYYY-MM-DD
@@ -66,6 +90,17 @@ class Pedido {
     }
   }
   
+  /*Función: eliminarProductoCarrito
+Objetivo: Eliminar un producto del carrito de un cliente.
+
+Parámetros:
+
+clienteId: ID del cliente.
+productoId: ID del producto a eliminar.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza para eliminar un producto específico del carrito de un cliente. 
+Elimina el detalle de pedido correspondiente al producto y al cliente de la tabla "Detalle_Pedidos" */
   
   static   async   elimnarProductoCarrito(clienteId, productoId) {
     try {
@@ -77,7 +112,17 @@ class Pedido {
   }
   
   
-  //obtener productos por cliente
+  /*Función: obtenerProductosPorCliente
+Objetivo: Obtener los productos en el carrito de un cliente.
+
+Parámetros:
+
+clienteId: ID del cliente.
+Valor de retorno: La función devuelve una lista de detalles de pedido con el subtotal calculado para cada producto como una respuesta JSON.
+
+Uso: Esta función se utiliza para obtener los productos en el carrito de un cliente específico. 
+Realiza una consulta que combina la tabla "Detalle_Pedidos" con la tabla "Productos" utilizando el ID del pedido. 
+Calcula el subtotal para cada detalle de pedido y devuelve los detalles de pedido con el subtotal calculado. */
   static async obtenerProductosPorCliente(clienteId) {
     console.log(clienteId)
     try {
@@ -111,14 +156,17 @@ class Pedido {
     }
   }
   
-  
+  /*Función: finalizarCompra
+Objetivo: Finalizar la compra de un producto.
 
-  
-//eliminar producto de carrito por id de producto 
-  //elimnar producto del carrito eliminarProducto(clienteId, productoId);
+Parámetros:
 
-  //finalizar compra
+clienteId: ID del cliente.
+productoId: ID del producto a eliminar del carrito.
+Valor de retorno: La función no devuelve ningún valor.
 
+Uso: Esta función se utiliza para finalizar la compra de un producto específico. 
+Elimina el detalle de pedido correspondiente al producto y al cliente de la tabla "Detalle_Pedidos". */
   static async finalizarCompra(clienteId, productoId) {
     try {
       const query = 'DELETE FROM Detalle_Pedidos WHERE ID_Pedido = ? AND ID_Producto = ?';
@@ -127,7 +175,17 @@ class Pedido {
       throw error;
     }
   }
-  //vaciar carrito
+  
+  /*Función: vaciarCarrito
+Objetivo: Vaciar el carrito de un cliente.
+
+Parámetros:
+
+clienteId: ID del cliente.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza para vaciar el carrito de un cliente. 
+Elimina todos los detalles de pedido asociados al cliente de la tabla "Detalle_Pedidos". */
   static async vaciarCarrito(clienteId) {
     try {
       const query = 'DELETE FROM Detalle_Pedidos WHERE ID_Pedido = ?';

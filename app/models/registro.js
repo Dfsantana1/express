@@ -35,7 +35,6 @@ class Registro {
   }
 
 
-  //obtener usuario por id
   static obtenerRegistroPorIdq(Id) {
     console.log(Id);
     return new Promise((resolve, reject) => {
