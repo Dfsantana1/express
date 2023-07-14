@@ -178,7 +178,18 @@ Si el stock es menor que el valor mínimo, se envía una alerta por correo elect
     }
   }
 
-  //enviar email por compra a cliente y a administrador
+  /*Función: enviarEmailCompra
+Objetivo: Enviar un correo electrónico de confirmación de compra al usuario.
+
+Parámetros:
+
+productoId: ID del producto comprado.
+userEmail: Correo electrónico del usuario.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza para enviar un correo electrónico de confirmación de compra al usuario después de realizar una compra. 
+Realiza una consulta en la tabla de productos utilizando el ID proporcionado para obtener los detalles del producto. 
+Luego, configura el contenido del correo electrónico y lo envía al correo electrónico del usuario. */
   static async enviarEmailCompra(productoId,userEmail) {
     try {
       const query = 'SELECT * FROM Productos WHERE ID_Producto = ?';
@@ -219,7 +230,19 @@ Si el stock es menor que el valor mínimo, se envía una alerta por correo elect
       throw error;
     }
   }
-  //enviar email por compra a cliente y a administrador
+
+  /*Función: enviarEmailCompraAdmin
+Objetivo: Enviar un correo electrónico de confirmación de compra al administrador.
+
+Parámetros:
+
+productoId: ID del producto comprado.
+admin: Correo electrónico del administrador.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza para enviar un correo electrónico de confirmación de compra al administrador después de que un usuario realice una compra. 
+Realiza una consulta en la tabla de productos utilizando el ID proporcionado para obtener los detalles del producto. 
+Luego, configura el contenido del correo electrónico y lo envía al correo electrónico del administrador. */
   static async enviarEmailCompraAdmin(productoId,admin) {
     try {
       const query = 'SELECT * FROM Productos WHERE ID_Producto = ?';
