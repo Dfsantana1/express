@@ -13,7 +13,7 @@ router.put('/products', productController.editarProducto);
 
 //enviar correos de compra
 
-router.post('/sucessfull',sendMailUser);
+router.post('/success',sendMailUser);
 
 
 module.exports = router;

@@ -1,10 +1,13 @@
 const transporter = require("../models/sendMailModel");
 
 const sendMailUser = async (req, res) => {
+const {email} = req.body;
+console.log(email);
+
   try {
     const user = await transporter.sendMail({
       from: process.env.EMAIL,
-      to: "l.gonzalez1@utp.edu.co",
+      to: email,
       subject: "Compra realizada User",
       text: "Hola, esta fue tu compra",
     });
