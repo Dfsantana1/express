@@ -11,6 +11,24 @@ const transporter = nodemailer.createTransport({
 });
 
 class Product {
+  /*Función: crearProducto
+Objetivo: Crear un nuevo producto.
+
+Parámetros:
+
+name: Nombre del producto.
+description: Descripción del producto.
+price: Precio del producto.
+image1: URL de la imagen 1 del producto.
+image2: URL de la imagen 2 del producto.
+image3: URL de la imagen 3 del producto.
+max: Valor máximo del producto.
+min: Valor mínimo del producto.
+stock: Stock del producto.
+Valor de retorno: La función devuelve el ID del producto creado.
+
+Uso: Esta función se utiliza para crear un nuevo producto en la base de datos. 
+Toma los parámetros necesarios, realiza una consulta de inserción en la tabla de productos y devuelve el ID del producto creado. */
   static async crearProducto(name, description, price, image1, image2, image3, max, min, stock) {
     try {
       const query = 'INSERT INTO Productos (Nombre_Producto, Descripci0n, Precio, `Imagen_1`, `Imagen_2`, `Imagen_3`, Max, Min, Stock) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
@@ -20,7 +38,26 @@ class Product {
       throw error;
     }
   }
+/*Función: editarProducto
+Objetivo: Editar un producto existente.
 
+Parámetros:
+
+productoId: ID del producto a editar.
+name: Nuevo nombre del producto.
+description: Nueva descripción del producto.
+price: Nuevo precio del producto.
+image1: Nueva URL de la imagen 1 del producto.
+image2: Nueva URL de la imagen 2 del producto.
+image3: Nueva URL de la imagen 3 del producto.
+stock: Nuevo stock del producto.
+max: Nuevo valor máximo del producto.
+min: Nuevo valor mínimo del producto.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza para editar un producto existente en la base de datos. 
+Toma los parámetros necesarios y realiza una consulta de actualización en la tabla de productos 
+para modificar los campos correspondientes del producto con el ID proporcionado. */
   static async editarProducto(productoId, name, description, price, image1, image2, image3, stock, max, min) {
     try {
       const query = 'UPDATE Productos SET Nombre_Producto = ?, Descripcion = ?, Precio = ?, Imagen_1 = ?, Imagen_2 = ?, Imagen_3 = ?, Stock = ?, Max = ?, Min = ? WHERE ID_Producto = ?';
@@ -30,8 +67,16 @@ class Product {
     }
   }
   
- 
+ /*Función: eliminarProducto
+Objetivo: Eliminar un producto existente.
 
+Parámetros:
+
+productoId: ID del producto a eliminar.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza para eliminar un producto existente de la base de datos. 
+Toma el ID del producto y realiza una consulta de eliminación en la tabla de productos. */
   static async eliminarProducto(productoId) {
     try {
       const query = 'DELETE FROM Productos WHERE ID_Producto = ?';
@@ -41,7 +86,17 @@ class Product {
     }
   }
   
+/*Función: obtenerProductos
+Objetivo: Obtener una lista de productos.
 
+Parámetros:
+
+categoriaId (opcional): ID de la categoría de productos para filtrar la lista.
+Valor de retorno: La función devuelve una lista de productos.
+
+Uso: Esta función se utiliza para obtener una lista de productos de la base de datos. 
+Si se proporciona un ID de categoría, se filtran los productos por esa categoría. 
+Realiza una consulta en la tabla de productos y devuelve los resultados obtenidos. */
   static async obtenerProductos(categoriaId) {
     try {
       let query = 'SELECT * FROM Productos';
@@ -58,7 +113,17 @@ class Product {
       throw error;
     }
   }
-  //function getproductbyid
+  /*
+  Función: obtenerProductoPorId
+Objetivo: Obtener los detalles de un producto por su ID.
+
+Parámetros:
+
+productoId: ID del producto.
+Valor de retorno: La función devuelve los detalles del producto.
+
+Uso: Esta función se utiliza para obtener los detalles de un producto específico por su ID. 
+Realiza una consulta en la tabla de productos utilizando el ID proporcionado y devuelve los resultados obtenidos.*/
   static async obtenerProductoPorId(productoId) {
     try {
       const query = 'SELECT * FROM Productos WHERE ID_Producto = ?';
@@ -69,7 +134,18 @@ class Product {
     }
   }
   
+/*Función: verificarStock
+Objetivo: Verificar el stock de un producto y enviar una alerta si está fuera de stock.
 
+Parámetros:
+
+productoId: ID del producto.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza para verificar el stock de un producto específico por su ID. 
+Realiza una consulta en la tabla de productos y obtiene el stock y el valor mínimo permitido del producto. 
+Si el stock es menor que el valor mínimo, se envía una alerta por correo electrónico.
+ */
   static async verificarStock(productoId) {
     try {
       const query = 'SELECT Stock ,Min FROM Productos WHERE ID_Producto = ?';
