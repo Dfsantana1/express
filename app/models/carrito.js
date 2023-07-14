@@ -127,19 +127,18 @@ Calcula el subtotal para cada detalle de pedido y devuelve los detalles de pedid
     console.log(clienteId)
     try {
       const query = `
-      SELECT Detalle_Pedidos.*, Productos.Precio 
-      FROM Detalle_Pedidos 
-      INNER JOIN Productos ON Detalle_Pedidos.ID_Producto = Productos.ID_Producto 
+      SELECT Detalle_Pedidos.*, Productos.Precio, Productos.Nombre_Producto, Productos.Imagen_1
+      FROM Detalle_Pedidos
+      INNER JOIN Productos ON Detalle_Pedidos.ID_Producto = Productos.ID_Producto
       WHERE Detalle_Pedidos.ID_Pedido IN (
-        SELECT ID_Pedido 
-        FROM Pedidos 
+        SELECT ID_Pedido
+        FROM Pedidos
         WHERE ID_Usuario = ?
       )
     `;
     
     const [rows] = await db.query(query, [clienteId]);
     console.log(rows);
-    
   
       // Aquí se realiza el cálculo del subtotal para cada detalle de pedido
       const detallesPedidosConSubtotal = rows.map(detallePedido => {
