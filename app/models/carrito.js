@@ -136,6 +136,7 @@ Calcula el subtotal para cada detalle de pedido y devuelve los detalles de pedid
         WHERE ID_Usuario = ?
       )
     `;
+    //Holi
     
     const [rows] = await db.query(query, [clienteId]);
     console.log(rows);
