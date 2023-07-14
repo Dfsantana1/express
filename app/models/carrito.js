@@ -195,49 +195,27 @@ Elimina todos los detalles de pedido asociados al cliente de la tabla "Detalle_P
     }
   }
 
-  //elimanr producto del carrito y aumentar el stock  segundo cantidad
+  //elimanr producto del carrito 
   static async eliminarProductoDelCarrito(clienteId, productoId) {
     try {
-      console.log('clienteId', clienteId, 'productoId', productoId);
-  
-      // Consulta para obtener el ID_Pedido de la tabla Pedidos
-      const selectQuery = `
-        SELECT ID_Pedido
-        FROM Pedidos
-        WHERE ID_Usuario = ?
-      `;
-  
-      // Consulta para eliminar registros en la tabla Detalle_Pedidos
-      const deleteQuery = `
+      const query = `
         DELETE FROM Detalle_Pedidos
-        WHERE ID_Pedido = ?
+        WHERE ID_Pedido = (
+          SELECT ID_Pedido
+          FROM Pedidos
+          WHERE ID_Usuario = ?
+        )
         AND ID_Producto = ?
       `;
-  
-        
-      const selectResult = await db.query(selectQuery, [clienteId]);
-      console.log('selectResult', selectResult);
-      const rows = selectResult.rows;
-      if (rows.length > 0) {
-        const pedidoId = rows[0].producto.ID_Pedido;
-        const productoId = rows[0].producto.ID_Producto;
-        // Resto del código para eliminar el producto del carrito
-        await db.query(deleteQuery, [pedidoId, productoId]);
-
-        // Consulta para obtener el stock actual del product
-      } else {
-        console.log('No se encontró ningún pedido para el ID de usuario proporcionado.');
-      }
-      
-  }
-  catch (error) {
-    throw error;
-
+      await db.query(query, [clienteId, productoId]);
+      console.log('Registros eliminados correctamente.');
+    } catch (error) {
+      console.error('Error al eliminar el producto del carrito:', error);
+      throw error;
+    }
   }
   
-
-
-  }
+  
 }
 
 
