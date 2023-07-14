@@ -1,10 +1,22 @@
 const Carrito = require('../models/carrito');
 const Product = require('../models/productos');
 
-const Stripe = require("stripe");
+const Stripe = require("stripe"); // Conexion con api para pasarela de pago
 const stripe = new Stripe("sk_test_51NJ0FPGQf2KJU8YXKuVLHpQavgn9simTrnriCjS2beCGo4aWyENRQ5RR7gETypJpVaOdAbvmun5hSjtCWo9T5sS500v6uI8TVA");
 
 
+/*
+Función: agregarProductoAlCarrito
+Objetivo: Agregar un producto al carrito de un cliente.
+
+Parámetros:
+
+req: Objeto de solicitud HTTP.
+res: Objeto de respuesta HTTP.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza cuando un cliente desea agregar un producto a su carrito de compras.
+*/
 async function agregarProductoAlCarrito(req, res) {
   // Obtener los datos del cliente y producto desde el body de la solicitud
   const { clienteId, productoId, cantidad } = req.body;
@@ -30,6 +42,18 @@ async function agregarProductoAlCarrito(req, res) {
   }
 }
 
+/*
+Función: obtenerSubtotalCarrito
+Objetivo: Calcular el subtotal del carrito de un cliente.
+
+Parámetros:
+
+req: Objeto de solicitud HTTP.
+res: Objeto de respuesta HTTP.
+Valor de retorno: La función devuelve el subtotal del carrito como una respuesta JSON.
+
+Uso: Esta función se utiliza para obtener el subtotal del carrito de un cliente y mostrarlo en la interfaz de usuario.
+*/
 async function obtenerSubtotalCarrito(req, res) {
   try {
     // Obtener el ID del cliente desde los parámetros de la solicitud
@@ -59,8 +83,19 @@ async function obtenerSubtotalCarrito(req, res) {
   }
 }
 
-//compra realizada con exito  cuando se realice la compra , e
-//l carrito se vacia y se envia un email al usuario con los detalles de la compra y uno al admin
+/*
+Función: compraRealizada
+Objetivo: Realizar una compra exitosa, vaciar el carrito y enviar correos electrónicos de confirmación.
+
+Parámetros:
+
+req: Objeto de solicitud HTTP.
+res: Objeto de respuesta HTTP.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza cuando un cliente realiza una compra exitosa. Vacía el carrito del cliente y envía correos electrónicos 
+tanto al usuario como al administrador con los detalles de la compra.
+*/
 async function compraRealizada(req, res) {
   try {
     // Obtener el ID del cliente desde los parámetros de la solicitud
@@ -110,11 +145,18 @@ async function compraRealizada(req, res) {
 }
 
 
+/*
+Función: checkout
+Objetivo: Realizar el proceso de pago utilizando la pasarela de pago Stripe.
 
+Parámetros:
 
+req: Objeto de solicitud HTTP.
+res: Objeto de respuesta HTTP.
+Valor de retorno: La función devuelve el resultado de la sesión de pago de Stripe como una respuesta JSON.
 
-
-
+Uso: Esta función se utiliza para iniciar el proceso de pago utilizando la pasarela de pago Stripe.
+*/
 
 async function checkout (req, res)  {
   const data = req.body;
@@ -131,11 +173,22 @@ async function checkout (req, res)  {
   res.json({result:session})
 }
 
+
+/*Función: obtenerCarritoPorCliente
+Objetivo: Obtener el carrito de compras de un cliente con los productos y el total.
+
+Parámetros:
+
+req: Objeto de solicitud HTTP.
+res: Objeto de respuesta HTTP.
+Valor de retorno: La función devuelve los productos en el carrito y el total como una respuesta JSON.
+
+Uso: Esta función se utiliza para obtener los productos en el carrito de un cliente junto con el total de la compra. */
 async function obtenerCarritoPorCliente(req, res) {
   try {
     // Obtener el ID del cliente desde los parámetros de la solicitud
     const { clienteId } = req.params;
-
+    
     // Obtener los productos en el carrito del cliente
     const productosCarrito = await Carrito.obtenerProductosPorCliente(clienteId);
 
@@ -175,7 +228,16 @@ async function obtenerCarritoPorCliente(req, res) {
   }
 }
 
+/*Función: eliminarProductoDelCarrito
+Objetivo: Eliminar un producto del carrito de un cliente.
 
+Parámetros:
+
+req: Objeto de solicitud HTTP.
+res: Objeto de respuesta HTTP.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza cuando un cliente desea eliminar un producto de su carrito de compras. */
 
 async function eliminarProductoDelCarrito(req, res) {
   // Obtener el ID del cliente desde los parámetros de la solicitu
@@ -192,9 +254,16 @@ async function eliminarProductoDelCarrito(req, res) {
   }
 }
 
+/*Función: vaciarCarrito
+Objetivo: Vaciar el carrito de un cliente.
 
+Parámetros:
 
-//vaciar carrito
+req: Objeto de solicitud HTTP.
+res: Objeto de respuesta HTTP.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza cuando un cliente desea vaciar por completo su carrito de compras. */
 async function vaciarCarrito(req, res) {
   // Obtener el ID del cliente desde los parámetros de la solicitu
   const { clienteId } = req.params;
@@ -210,7 +279,17 @@ async function vaciarCarrito(req, res) {
   }
 }
 
+/*Función: finalizarCompra
+Objetivo: Finalizar una compra, actualizar el stock y el estado del carrito.
 
+Parámetros:
+
+req: Objeto de solicitud HTTP.
+res: Objeto de respuesta HTTP.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza cuando un cliente desea finalizar una compra. Actualiza el stock de los productos comprados y 
+el estado del carrito del cliente. */
 async function finalizarCompra(req, res) {
   // Obtener el ID del cliente desde los parámetros de la solicitud
   const { clienteId } = req.params;

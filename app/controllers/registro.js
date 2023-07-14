@@ -1,7 +1,21 @@
 const Registro = require("../models/registro");
 const bodyParser = require('body-parser');
 
-const registrarUsuario = async (req, res) => {
+
+/*Función: registrarUsuario
+Objetivo: Registrar un nuevo usuario.
+
+Parámetros:
+
+req: Objeto de solicitud HTTP.
+res: Objeto de respuesta HTTP.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza para registrar un nuevo usuario. Utiliza la información proporcionada en el cuerpo de la solicitud 
+(como el nombre, apellido, correo electrónico, contraseña, teléfono y dirección) para crear un nuevo registro en la base de datos. 
+Verifica si el correo electrónico y la contraseña ya están registrados y responde al cliente con un mensaje de éxito o un mensaje de error 
+si el correo electrónico ya está en uso. */
+const registrarUsuario = async (req, res) => { 
   console.log(req.body);
   const {Name,Lastname,Email,Password,Telefono,Direccion} = req.body;
 
@@ -31,7 +45,20 @@ const registrarUsuario = async (req, res) => {
   
 };
 
-//obtener usuario adminstrador
+/*Función: editarUsuario
+Objetivo: Editar la información de un usuario existente.
+
+Parámetros:
+
+req: Objeto de solicitud HTTP.
+res: Objeto de respuesta HTTP.
+Valor de retorno: La función no devuelve ningún valor.
+
+Uso: Esta función se utiliza para editar la información de un usuario existente. Utiliza la información 
+proporcionada en el cuerpo de la solicitud (como el nombre, apellido, correo electrónico, contraseña, teléfono y dirección) 
+para actualizar la información del usuario en la base de datos. Verifica si el usuario existe y responde al cliente con un 
+mensaje de éxito o un mensaje de error si el usuario no existe.
+ */
 const obtenerUsuario = async (req, res) => {
   try {
 
