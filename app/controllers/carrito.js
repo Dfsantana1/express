@@ -240,12 +240,14 @@ Valor de retorno: La función no devuelve ningún valor.
 Uso: Esta función se utiliza cuando un cliente desea eliminar un producto de su carrito de compras. */
 
 async function eliminarProductoDelCarrito(req, res) {
+  console.log('eliminarProductoDelCarrito');
   // Obtener el ID del cliente desde los parámetros de la solicitu
-  const { clienteId, productoId } = req.params;
+  console.log(req.params);
+  const { clienteId, productoId,cantidad } = req.params;
 
   try {
     // Eliminar el producto del carrito del cliente
-   // await Carrito.eliminarProductoCarrito(clienteId, productoId);
+   await Carrito.eliminarProductoDelCarrito(clienteId, productoId,cantidad);
 
     res.json({ message: 'The product was removed' });
   } catch (error) {

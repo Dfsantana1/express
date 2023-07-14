@@ -193,7 +193,23 @@ Elimina todos los detalles de pedido asociados al cliente de la tabla "Detalle_P
       throw error;
     }
   }
-}
 
+  //elimanr producto del carrito y aumentar el stock  segundo cantidad
+  static async eliminarProductoDelCarrito(clienteId, productoId,cantidad) {
+    try { 
+      console.log('clienteId',clienteId,'productoId',productoId,'cantidad',cantidad);
+
+      const query = 'DELETE FROM Detalle_Pedidos WHERE ID_Pedido = ? AND ID_Producto = ?';
+      await db.query(query, [clienteId, productoId]);
+
+      const query2 = 'UPDATE Productos SET Stock = Stock + ? WHERE ID_Producto = ?';
+      await db.query(query2, [cantidad, productoId]);
+
+    } catch (error) {
+      throw error;
+  }
+    
+  }
+  }
 
 module.exports = Pedido;
