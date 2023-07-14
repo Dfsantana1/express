@@ -80,7 +80,7 @@ class Pedido {
   //obtener productos por cliente
   static async obtenerProductosPorCliente(clienteId) {
     try {
-      const query = 'SELECT Detalle_Pedidos.*, Productos.Precio FROM Detalle_Pedidos INNER JOIN Productos ON Detalle_Pedidos.ID_Producto = Productos.ID_Producto WHERE Detalle_Pedidos.ID_Pedido = ?';
+      const query = 'SELECT Pedidos.ID_usuario, Productos.Nombre_Producto, Productos.Precio FROM Detalle_Pedidos INNER JOIN Productos ON Detalle_Pedidos.ID_Producto = Productos.ID_Producto INNER JOIN Pedidos ON Detalle_Pedidos.ID_pedido = Pedidos.ID_Pedido INNER JOIN Usuarios ON Pedidos.ID_usuario = Usuarios.ID_Usuario WHERE Usuarios.ID_Usuario = ?';
       const [rows] = await db.query(query, [clienteId]);
   
       // Aquí se realiza el cálculo del subtotal para cada detalle de pedido
