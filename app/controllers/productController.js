@@ -25,9 +25,10 @@ console.log(req.query.productId);
 }
 
 async function editarProducto(req, res) {
-  const productId = req.body.id; // Obtener el ID del producto desde el cuerpo de la solicitud
-  const { nombre, descripcion, precio, stock, imagen1, imagen2, imagen3, max, min } = req.body; // Obtener los datos del producto desde el cuerpo de la solicitud
+  const productId = req.body.ID_Producto; // Obtener el ID del producto desde el cuerpo de la solicitud
 
+  const { Nombre_Producto, Descripcion, Precio, Stock, Imagen_1, Imagen_2, Imagen_3, Max, Min } = req.body; // Obtener los datos del producto desde el cuerpo de la solicitud
+console.log(req.body);
   try {
     // Verificar que el producto exista
     const producto = await Product.obtenerProductoPorId(productId);
@@ -36,7 +37,7 @@ async function editarProducto(req, res) {
     }
 
     // Actualizar el producto
-    await Product.editarProducto(productId, nombre, descripcion, precio, imagen1, imagen2, imagen3, stock, max, min);
+    await Product.editarProducto(productId, Nombre_Producto, Descripcion, Precio, Imagen_1, Imagen_2, Imagen_3, Stock, Max, Min);
 
     res.json({ message: 'Product updated' });
   } catch (error) {

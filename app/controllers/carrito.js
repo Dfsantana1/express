@@ -37,7 +37,7 @@ async function obtenerSubtotalCarrito(req, res) {
 
     // Obtener los productos en el carrito del cliente
     const productosCarrito = await Carrito.obtenerProductosPorCliente(clienteId);
-
+ 
     console.log(productosCarrito);
 
     // Validar si el carrito está vacío
