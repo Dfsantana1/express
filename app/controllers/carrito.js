@@ -135,7 +135,7 @@ async function obtenerCarritoPorCliente(req, res) {
   try {
     // Obtener el ID del cliente desde los parámetros de la solicitud
     const { clienteId } = req.params;
-
+    
     // Obtener los productos en el carrito del cliente
     const productosCarrito = await Carrito.obtenerProductosPorCliente(clienteId);
 
