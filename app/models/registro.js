@@ -18,14 +18,16 @@ class Registro {
   static obtenerRegistroPorEmail(Email) {
     console.log(Email);
     return new Promise((resolve, reject) => {
-      const getUserByEmailQuery = "SELECT * FROM Usuarios WHERE Email = ?";
+      const getUserByEmailQuery = "SELECT *FROM Usuarios WHERE Email = ?";
       connection.query(getUserByEmailQuery, [Email], (err, results) => {
         if (err) {
+          console.log("Error al obtener el registro por email:", err);
           console.error("Error al obtener el registro por email:", err);
           return reject(err);
         }
 
         if (results.length > 0) {
+          console.log(results[0]);  
           resolve(results[0]);
         } else {
           resolve(null);

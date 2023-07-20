@@ -98,7 +98,7 @@ const editarUsuario = async (req, res) => {
       
     // Actualizar el cliente utilizando el modelo
     await Registro.editarRegistro(Name,Lastname,Email,Password,Telefono,Direccion);
-
+ console.log("hola");   
     // Responder al cliente con un mensaje de éxito
     res.json({ message: "Client updated" });
   } catch (error) {

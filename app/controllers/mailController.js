@@ -2,11 +2,9 @@ const transporter = require("../models/sendMailModel");
 
 const sendMailUser = async (req, res) => {
 const {email} = req.body;
-console.log(email);
-
   try {
     const user = await transporter.sendMail({
-      from: '"FlexStride" <Felipegb24510@gmail.com>',
+      from: '"FlexStride" diego Santana',
       to: email,
       subject: "Hemos recibido correctamente tu pago ;)",
       text: "Hola, has realizado una compra en FlexStride, nos alegra que confies en nosotros. Consulta nuestra página para consultar el estado de tu envío",
