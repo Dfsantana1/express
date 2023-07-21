@@ -9,7 +9,7 @@ router.get('/products/:productId?', productController.obtenerProductos);
 
 // Definir la ruta POST '/products' y llamar a productController.agregarProducto para manejar la solicitud
 router.put('/products', productController.editarProducto);
-
+ 
 
 //enviar correos de compra
 
